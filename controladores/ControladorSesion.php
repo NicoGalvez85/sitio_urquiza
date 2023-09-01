@@ -17,8 +17,9 @@ class ControladorSesion
         else 
         {
             session_start();
+            $rol = $usuario->getRol();
             $_SESSION['usuario'] = serialize($usuario);
-            return [true, "Usuario autenticado correctamente"];
+            return [$rol, "Usuario autenticado correctamente"];
         }
     }
 
