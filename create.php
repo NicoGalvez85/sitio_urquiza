@@ -45,7 +45,8 @@ if (isset($_POST['email']) && isset($_POST['clave']))
         <form action="create.php" method="post">
             <input name="cuil" class="form-control form-control-lg" placeholder="CUIL"><br>
             <input type="email" name="email" class="form-control form-control-lg" placeholder="Email"><br>
-            <input name="rol" type= "number" class="form-control form-control-lg" placeholder="Rol"><br>
+            <ul id="roles-list"></ul>
+            <button type="button" id="agregar-rol" class="btn btn-success">Agregar Rol</button><br><br>        
             <input name="nombre" class="form-control form-control-lg" placeholder="Nombre"><br>
             <input name="apellido" class="form-control form-control-lg" placeholder="Apellido"><br>
             <input name="clave" type="password" class="form-control form-control-lg" placeholder="Contraseña"><br>
@@ -53,6 +54,8 @@ if (isset($_POST['email']) && isset($_POST['clave']))
             <input type="submit" value="Registrar" class="btn btn-primary">
         </form>        
       </div>
+
+      <script src="js/create.js"></script>
 
     </body>
 </html>

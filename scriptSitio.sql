@@ -1,123 +1,125 @@
--- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
---
--- Host: localhost    Database: pp2sitio
--- ------------------------------------------------------
--- Server version	8.0.30
+-- MySQL Workbench Forward Engineering
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
---
--- Table structure for table `accesos`
---
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema pp2sitio2
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `pp2sitio2` ;
 
-DROP TABLE IF EXISTS `accesos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `accesos` (
-  `id_accesos` int NOT NULL AUTO_INCREMENT,
-  `fecha_hora` datetime NOT NULL,
-  `persona_cuil` bigint NOT NULL,
-  `persona_id_rol` int NOT NULL,
-  PRIMARY KEY (`id_accesos`,`persona_cuil`,`persona_id_rol`),
-  KEY `fk_accesos_persona_idx` (`persona_cuil`,`persona_id_rol`),
-  CONSTRAINT `fk_accesos_persona` FOREIGN KEY (`persona_cuil`, `persona_id_rol`) REFERENCES `persona` (`cuil`, `id_rol`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- -----------------------------------------------------
+-- Schema pp2sitio2
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `pp2sitio2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `pp2sitio2` ;
 
---
--- Dumping data for table `accesos`
---
+-- -----------------------------------------------------
+-- Table `pp2sitio2`.`persona`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pp2sitio2`.`persona` ;
 
-LOCK TABLES `accesos` WRITE;
-/*!40000 ALTER TABLE `accesos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `accesos` ENABLE KEYS */;
-UNLOCK TABLES;
+CREATE TABLE IF NOT EXISTS `pp2sitio2`.`persona` (
+  `cuil` BIGINT NOT NULL,
+  `nombre` VARCHAR(45) NOT NULL,
+  `apellido` VARCHAR(45) NOT NULL,
+  `mail` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(100) NULL DEFAULT NULL,
+  `estado` TINYINT(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`cuil`),
+  UNIQUE INDEX `mail_UNIQUE` (`mail` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
---
--- Table structure for table `persona`
---
 
-DROP TABLE IF EXISTS `persona`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `persona` (
-  `cuil` bigint NOT NULL,
-  `nombre` varchar(45) NOT NULL,
-  `apellido` varchar(45) NOT NULL,
-  `mail` varchar(45) NOT NULL,
-  `password` varchar(100) DEFAULT NULL,
-  `id_rol` int NOT NULL,
-  `estado` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`cuil`,`id_rol`),
-  UNIQUE KEY `mail_UNIQUE` (`mail`),
-  KEY `fk_persona_rol1_idx` (`id_rol`),
-  CONSTRAINT `fk_persona_rol1` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id_rol`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- -----------------------------------------------------
+-- Table `pp2sitio2`.`accesos`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pp2sitio2`.`accesos` ;
 
---
--- Dumping data for table `persona`
---
+CREATE TABLE IF NOT EXISTS `pp2sitio2`.`accesos` (
+  `id_accesos` INT NOT NULL AUTO_INCREMENT,
+  `fecha_hora` DATETIME NOT NULL,
+  `persona_cuil` BIGINT NOT NULL,
+  PRIMARY KEY (`id_accesos`),
+  INDEX `fk_accesos_persona1_idx` (`persona_cuil` ASC) VISIBLE,
+  CONSTRAINT `fk_accesos_persona1`
+    FOREIGN KEY (`persona_cuil`)
+    REFERENCES `pp2sitio2`.`persona` (`cuil`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
-LOCK TABLES `persona` WRITE;
-/*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-INSERT INTO `persona` VALUES (1,'ejnombre','ejapellido','e@mly','987654',0,1),(123,'Emanuel','Galvez','nicolasgalvz1985@gmail.com1','123',1,1),(4565,'Emanuel','Galvez','nicolasgalvez1985@gmail.com1','456',1,1),(20318650,'Nicolas','Galvez','nicogalvez1985@gmail.com','$2y$10$9EYSrL0UdTERN8RhPjtBZ.oS3Nxn3rH9yzfeY5ejUzgzWpYWMkiVu',1,1);
-/*!40000 ALTER TABLE `persona` ENABLE KEYS */;
-UNLOCK TABLES;
 
---
--- Table structure for table `publicación`
---
+-- -----------------------------------------------------
+-- Table `pp2sitio2`.`publicación`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pp2sitio2`.`publicación` ;
 
-DROP TABLE IF EXISTS `publicación`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `publicación` (
-  `id_publicación` int NOT NULL AUTO_INCREMENT,
-  `titulo` varchar(45) NOT NULL,
-  `descripcion` varchar(45) NOT NULL,
-  `persona_cuil` bigint NOT NULL,
-  PRIMARY KEY (`id_publicación`,`persona_cuil`),
-  KEY `fk_publicación_persona_idx` (`persona_cuil`),
-  CONSTRAINT `fk_publicación_persona` FOREIGN KEY (`persona_cuil`) REFERENCES `persona` (`cuil`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE IF NOT EXISTS `pp2sitio2`.`publicación` (
+  `id_publicación` INT NOT NULL AUTO_INCREMENT,
+  `titulo` VARCHAR(45) NOT NULL,
+  `descripcion` VARCHAR(45) NOT NULL,
+  `persona_cuil` BIGINT NOT NULL,
+  PRIMARY KEY (`id_publicación`),
+  INDEX `fk_publicación_persona1_idx` (`persona_cuil` ASC) VISIBLE,
+  CONSTRAINT `fk_publicación_persona1`
+    FOREIGN KEY (`persona_cuil`)
+    REFERENCES `pp2sitio2`.`persona` (`cuil`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `publicación`
---
 
-LOCK TABLES `publicación` WRITE;
-/*!40000 ALTER TABLE `publicación` DISABLE KEYS */;
-/*!40000 ALTER TABLE `publicación` ENABLE KEYS */;
-UNLOCK TABLES;
+-- -----------------------------------------------------
+-- Table `pp2sitio2`.`rol`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pp2sitio2`.`rol` ;
 
---
--- Table structure for table `rol`
---
+CREATE TABLE IF NOT EXISTS `pp2sitio2`.`rol` (
+  `id_rol` INT NOT NULL,
+  `rol` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_rol`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
-DROP TABLE IF EXISTS `rol`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `rol` (
-  `id_rol` int NOT NULL,
-  `rol` varchar(45) NOT NULL,
-  PRIMARY KEY (`id_rol`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `rol`
---
+-- -----------------------------------------------------
+-- Table `pp2sitio2`.`persona_roles`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pp2sitio2`.`persona_roles` ;
+
+CREATE TABLE IF NOT EXISTS `pp2sitio2`.`persona_roles` (
+  `persona_cuil` BIGINT NOT NULL,
+  `rol_id_rol` INT NOT NULL,
+  PRIMARY KEY (`persona_cuil`, `rol_id_rol`),
+  INDEX `fk_persona_has_rol_rol1_idx` (`rol_id_rol` ASC) VISIBLE,
+  INDEX `fk_persona_has_rol_persona1_idx` (`persona_cuil` ASC) VISIBLE,
+  CONSTRAINT `fk_persona_has_rol_persona1`
+    FOREIGN KEY (`persona_cuil`)
+    REFERENCES `pp2sitio2`.`persona` (`cuil`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_persona_has_rol_rol1`
+    FOREIGN KEY (`rol_id_rol`)
+    REFERENCES `pp2sitio2`.`rol` (`id_rol`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
 
 LOCK TABLES `rol` WRITE;
 /*!40000 ALTER TABLE `rol` DISABLE KEYS */;
