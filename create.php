@@ -43,13 +43,13 @@ if (isset($_POST['email']) && isset($_POST['clave']))
         ?>
 
         <form action="create.php" method="post">
-            <input name="cuil" class="form-control form-control-lg" placeholder="CUIL"><br>
-            <input type="email" name="email" class="form-control form-control-lg" placeholder="Email"><br>
+            <input name="cuil" class="form-control form-control-lg" placeholder="CUIL" required><br>
+            <input type="email" name="email" class="form-control form-control-lg" placeholder="Email" required><br>
             <ul id="roles-list"></ul>
             <button type="button" id="agregar-rol" class="btn btn-success">Agregar Rol</button><br><br>        
-            <input name="nombre" class="form-control form-control-lg" placeholder="Nombre"><br>
-            <input name="apellido" class="form-control form-control-lg" placeholder="Apellido"><br>
-            <input name="clave" type="password" class="form-control form-control-lg" placeholder="Contraseña"><br>
+            <input name="nombre" class="form-control form-control-lg" placeholder="Nombre" required><br>
+            <input name="apellido" class="form-control form-control-lg" placeholder="Apellido" required><br>
+            <input name="clave" type="password" class="form-control form-control-lg" placeholder="Contraseña" required><br>
             
             <input type="submit" value="Registrar" class="btn btn-primary">
         </form>        
