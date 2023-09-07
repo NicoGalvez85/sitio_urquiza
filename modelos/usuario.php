@@ -3,16 +3,16 @@ class Usuario
 {
     protected $cuil;
     protected $mail;
-    protected $rol;
+    protected $roles;
     protected $nombre;
     protected $apellido;
     protected $estado;
 
-    public function __construct($cuil, $mail, $rol, $nombre, $apellido, $estado)
+    public function __construct($cuil, $mail, $roles, $nombre, $apellido, $estado)
     {
         $this->cuil = $cuil;
         $this->mail = $mail;
-        $this->rol = $rol;
+        $this->roles = $roles;
         $this->nombre = $nombre;
         $this->apellido = $apellido;
         $this->estado = $estado;
@@ -23,8 +23,8 @@ class Usuario
     public function setCuil($cuil) {$this->cuil = $cuil;}
     public function getMail() {return $this->mail;}
     public function setMail($mail) {$this->mail = $mail;}
-    public function setRol($rol) {$this->rol = $rol;}
-    public function getRol() {return $this->rol;}    
+    public function setRol($roles) {$this->roles = $roles;}
+    public function getRol() {return $this->roles;}    
     public function getNombre() {return $this->nombre;}
     public function setNombre($nombre) {$this->nombre = $nombre;}
     public function getApellido() {return $this->apellido;}

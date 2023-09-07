@@ -23,10 +23,11 @@ class ControladorSesion
         }
     }
 
-    public function create($cuil, $mail, $rol, $nombre, $apellido, $clave)
+    public function create($cuil, $mail, $roles, $nombre, $apellido, $clave)
     {
         $repo = new RepositorioUsuario();
-        $usuario = new Usuario($cuil, $mail, $rol, $nombre, $apellido, $clave, true);
+        $usuario = new Usuario($cuil, $mail, $roles, $nombre, $apellido, $clave, true);
+        
         $creat = $repo->save($usuario, $clave);
 
         if ($creat === false)

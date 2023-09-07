@@ -3,9 +3,11 @@ require_once 'controladores/ControladorSesion.php';
 
 if (isset($_POST['email']) && isset($_POST['clave']))
 {
+
+    $roles = $_POST['rol'];
+
     $cs = new ControladorSesion();
-    $result = $cs->create($_POST['cuil'], $_POST['email'], 
-                          $_POST['rol'], $_POST['nombre'], $_POST['apellido'], $_POST['clave']);
+    $result = $cs->create($_POST['cuil'], $_POST['email'], $roles, $_POST['nombre'], $_POST['apellido'], $_POST['clave']);
 
     if( $result[0] === true )
     {

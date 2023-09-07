@@ -48,22 +48,31 @@ class RepositorioUsuario
 
     public function save(Usuario $u, $clave)
     {
-        $q = 'INSERT INTO persona (cuil, nombre, apellido, mail, password, estado, rol_id)';
-        $q.= "VALUES (?, ?, ?, ?, ?, ? ,?)";
-        $query = self::$conexion->prepare($q);
-
         $cuil = $u->getCuil();
         $nombre = $u->getNombre();
         $apellido = $u->getApellido();
         $mail = $u->getMail();
-        // $clave = $u->getClave();
         $clave = password_hash($clave, PASSWORD_DEFAULT);
-        $rol = $u->getRol();
+        $roles = $u->getRol();
         $estado = 1;
 
-        $query->bind_param("sssssss", $cuil, $nombre, $apellido, $mail, $clave, $estado, $rol);
+        $queryPersona = 'INSERT INTO persona (cuil, nombre, apellido, mail, password, estado)';
+        $queryPersona.= "VALUES (?, ?, ?, ?, ?, ?)";
+        $queryP = self::$conexion->prepare($queryPersona);
 
-        if ( $query->execute() )
+        $queryP->bind_param("ssssss", $cuil, $nombre, $apellido, $mail, $clave, $estado);
+
+        $queryRoles = 'INSERT INTO persona_roles (persona_cuil, rol_id_rol)';
+        $queryRoles.= "VALUES (?, ?)";
+        $queryR = self::$conexion->prepare($queryRoles);
+        $succesP= $queryP->execute();
+
+        foreach ($roles as $rol_id) {
+            $queryR->bind_param("si", $cuil, $rol_id);
+            $queryR->execute();
+        }
+
+        if ($succesP)
         {
             return true;
         }

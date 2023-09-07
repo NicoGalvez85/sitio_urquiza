@@ -12,12 +12,12 @@ function agregarCampoRol() {
         <div class="col-6 mx-0">
             <select name="rol[]" class="form-control form-control-lg" style="max-width: 100%;">
                 <option value="" disabled selected>Seleccione un Rol</option>
-                <option value="Administrador">Administrador</option>
-                <option value="Regente">Regente</option>
-                <option value="Profesor">Profesor</option>
-                <option value="Alumno">Alumno</option>
-                <option value="Bedel">Bedel</option>
-                <option value="Secretario">Secretario</option>
+                <option value="0">Administrador</option>
+                <option value="1">Regente</option>
+                <option value="2">Profesor</option>
+                <option value="3">Alumno</option>
+                <option value="4">Bedel</option>
+                <option value="5">Secretario</option>
             </select>
         </div>
         <div class="col-7 mx-0 pt-1">

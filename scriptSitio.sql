@@ -123,7 +123,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 LOCK TABLES `rol` WRITE;
 /*!40000 ALTER TABLE `rol` DISABLE KEYS */;
-INSERT INTO `rol` VALUES (0,'administrador'),(1,'regente'),(2,'profesor'),(3,'alumno'),(4,'bedel'),(5,'secretario');
+INSERT INTO rol (id_rol,rol) value(0,'Administrador'),(1,'Regente'),(2,'Profesor'),(3,'Alumno'),(4,'Bedel'),(5,'Secretario');
 /*!40000 ALTER TABLE `rol` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
