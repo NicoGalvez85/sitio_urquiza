@@ -1,0 +1,12 @@
+.checkboxes {
+    text-align: left;
+}
+
+.checkboxes label {
+    font-size: 16px; /* Tamaño de fuente para las etiquetas */
+}
+
+.checkboxes input[type="checkbox"] {
+    width: 20px; /* Ancho de los checkboxes */
+    height: 20px; /* Alto de los checkboxes */
+}
