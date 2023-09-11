@@ -1,29 +1,62 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const adminCheckbox = document.querySelector('input[name="rol[]"][value="0"]');
-    const otherCheckboxes = document.querySelectorAll('input[name="rol[]"]:not([value="0"])');
-  
-    adminCheckbox.addEventListener("change", function () {
-      if (this.checked) {
-        // Si se selecciona el checkbox de Administrador, deselecciona y deshabilita los otros checkboxes
-        otherCheckboxes.forEach(function (checkbox) {
-          checkbox.checked = false;
-          checkbox.disabled = true;
-        });
-      } else {
-        // Si se deselecciona el checkbox de Administrador, habilita los otros checkboxes
-        otherCheckboxes.forEach(function (checkbox) {
-          checkbox.disabled = false;
-        });
+  const form = document.querySelector("form");
+  const checkboxes = document.querySelectorAll('input[name="rol[]"]');
+  const adminCheckbox = document.querySelector('input[name="rol[]"][value="0"]');
+
+  // Almacena el estado de los checkboxes antes de marcar "Administrador"
+  const initialState = {};
+
+  // Registra el estado inicial de los checkboxes
+  checkboxes.forEach(function (checkbox) {
+    initialState[checkbox.value] = checkbox.checked;
+  });
+
+  // Agrega un evento de cambio al checkbox de Administrador
+  adminCheckbox.addEventListener("change", function () {
+    const adminChecked = this.checked;
+
+    // Si se marca el checkbox de Administrador, desmarca los otros checkboxes y deshabilítalos
+    checkboxes.forEach(function (checkbox) {
+      if (checkbox !== adminCheckbox) {
+        checkbox.checked = false;
+        checkbox.disabled = adminChecked;
       }
     });
-  
-    // Verificar si el checkbox de Administrador está seleccionado inicialmente
-    if (adminCheckbox.checked) {
-      // Si está seleccionado, deshabilita y deselecciona los otros checkboxes
-      otherCheckboxes.forEach(function (checkbox) {
-        checkbox.checked = false;
-        checkbox.disabled = true;
+
+    // Si se desmarca el checkbox de Administrador, habilita los otros checkboxes
+    if (!adminChecked) {
+      checkboxes.forEach(function (checkbox) {
+        if (checkbox !== adminCheckbox) {
+          checkbox.disabled = false;
+        }
       });
+
+      // Restaura el estado inicial de los checkboxes
+      for (const value in initialState) {
+        checkboxes.forEach(function (checkbox) {
+          if (checkbox.value === value) {
+            checkbox.checked = initialState[value];
+          }
+        });
+      }
     }
   });
-  
+
+  // Agrega un evento de envío al formulario
+  form.addEventListener("submit", function (event) {
+    let rolesSeleccionados = 0;
+
+    // Cuenta cuántos checkboxes de roles están seleccionados
+    checkboxes.forEach(function (checkbox) {
+      if (checkbox.checked) {
+        rolesSeleccionados++;
+      }
+    });
+
+    // Verifica si al menos un rol está seleccionado
+    if (rolesSeleccionados === 0) {
+      event.preventDefault(); // Evita que se envíe el formulario
+      alert("Debe seleccionar al menos un rol.");
+    }
+  });
+});

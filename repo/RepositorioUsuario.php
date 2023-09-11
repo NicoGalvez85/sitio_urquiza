@@ -26,25 +26,42 @@ class RepositorioUsuario
 
     public function login($mail, $clave)
     {
-        $q = "SELECT cuil, password, nombre, apellido, mail, rol_id, estado FROM persona ";
-        $q.= "WHERE mail = ?";
-        $query = self::$conexion->prepare($q);
-        $query->bind_param("s", $mail);
-        if ( $query->execute() )
-        {
-            $query->bind_result($cuil, $clave_encriptada, $nombre, $apellido, $mail, $rol, $estado);
-            if ( $query->fetch() )
-            {
-                if( password_verify($clave, $clave_encriptada) === true)
-                {
-                    if($estado != 0){
-                        return new Usuario($cuil, $mail, $rol, $nombre, $apellido, $estado);
+        $q1 = "SELECT cuil, password, nombre, apellido, mail, estado FROM persona ";
+        $q1 .= "WHERE mail = ?";
+        $query1 = self::$conexion->prepare($q1);
+        $query1->bind_param("s", $mail);
+        if ($query1->execute()) {
+            $query1->bind_result($cuil, $clave_encriptada, $nombre, $apellido, $mail, $estado);
+    
+            if ($query1->fetch()) {
+                if (password_verify($clave, $clave_encriptada) === true) {
+                    if ($estado != 0) {
+                        $query1->close(); // Cerrar la consulta $query1
+    
+                        $q2 = "SELECT rol_id_rol FROM persona_roles ";
+                        $q2 .= "WHERE persona_cuil = ?";
+                        $query2 = self::$conexion->prepare($q2);
+                        $query2->bind_param("i", $cuil);
+                        $query2->execute();
+    
+                        $roles = array();
+
+                        $query2->bind_result($rol_id);
+    
+                        while ($row = $query2->fetch()) {
+                            $roles[] = $rol_id;
+                        }
+
+                        $query2->close(); // Cerrar la consulta $query2
+                        return new Usuario($cuil, $mail, $roles, $nombre, $apellido, $estado);
                     }
                 }
             }
         }
         return false;
     }
+    
+    
 
     public function save(Usuario $u, $clave)
     {

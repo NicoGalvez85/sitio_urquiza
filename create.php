@@ -51,7 +51,7 @@ if (isset($_POST['email']) && isset($_POST['clave']))
             <input name="clave" type="password" class="form-control form-control-lg" placeholder="Contraseña" required><br>
 
                         <!-- Agregar los checkboxes de roles -->
-            <div class="form-group checkboxes">
+            <div class="form-group checkboxes mx-5">
                 <label for="roles" class="form-label"><h2>Seleccione el/los rol/es</h2></label><br>
                 <input type="checkbox" name="rol[]" value="0" class="form-check-input">
                 <label for="rol0" class="form-check-label">Administrador</label><br>
@@ -67,7 +67,7 @@ if (isset($_POST['email']) && isset($_POST['clave']))
                 <label for="rol3" class="form-check-label">Secretario</label><br>
             </div>
 
-            <input type="submit" value="Registrar" class="btn btn-primary">
+            <input type="submit" value="Registrar" class="btn btn-primary mb-2">
         </form>
     </div>
 
