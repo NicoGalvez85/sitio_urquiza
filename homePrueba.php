@@ -1,5 +1,5 @@
 <?php
-require_once 'modelos/usuario.php';
+require_once 'modelos/Usuario.php';
 session_start();
 if (isset($_SESSION['usuario'])) {
   $usuario = unserialize($_SESSION['usuario']);

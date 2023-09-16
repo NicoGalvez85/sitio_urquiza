@@ -8,7 +8,7 @@ require_once 'controladores/ControladorSesion.php';
     }
     else {
 
-        $redirigir = 'home0.php?mensaje=' . $login[1];
+        $redirigir = 'homePrueba.php?mensaje=' . $login[1];
     }
 
 header('Location: '.$redirigir);
