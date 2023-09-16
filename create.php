@@ -11,7 +11,7 @@ if (isset($_POST['email']) && isset($_POST['clave']))
 
     if( $result[0] === true )
     {
-        $redirigir = 'home.php?mensaje='.$result[1];
+        $redirigir = 'create.php?mensaje='.$result[1];
     }
     else
     {
@@ -48,7 +48,7 @@ if (isset($_POST['email']) && isset($_POST['clave']))
             <input type="email" name="email" class="form-control form-control-lg" placeholder="Email" required><br>
             <input name="nombre" class="form-control form-control-lg" placeholder="Nombre" required><br>
             <input name="apellido" class="form-control form-control-lg" placeholder="Apellido" required><br>
-            <input name="clave" type="password" class="form-control form-control-lg" placeholder="Contraseña" required><br>
+            <input name="clave" type="password" minlength="7" class="form-control form-control-lg" placeholder="Contraseña" required><br>
 
                         <!-- Agregar los checkboxes de roles -->
             <div class="form-group checkboxes mx-5">

@@ -59,8 +59,7 @@ class RepositorioUsuario
             }
         }
         return false;
-    }
-    
+    }    
     
 
     public function save(Usuario $u, $clave)
@@ -82,22 +81,65 @@ class RepositorioUsuario
         $queryRoles = 'INSERT INTO persona_roles (persona_cuil, rol_id_rol)';
         $queryRoles.= "VALUES (?, ?)";
         $queryR = self::$conexion->prepare($queryRoles);
-        $succesP= $queryP->execute();
 
-        foreach ($roles as $rol_id) {
-            $queryR->bind_param("si", $cuil, $rol_id);
-            $queryR->execute();
-        }
-
-        if ($succesP)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
+        try {
+            $queryP->execute();
+            foreach ($roles as $rol_id) {
+                $queryR->bind_param("si", $cuil, $rol_id);
+                    try {
+                        $queryR->execute();
+                    } catch (mysqli_sql_exception $e) {
+                        return [false, "Error de Roles"];
+                    }
+               }
+               return true;
+        } catch (mysqli_sql_exception $e) {
+            return [false, "No se pudo crear el usuario debido a incompatibilidades con BBDD."];
         }
     }
+
+
+    public function buscarPorCUIL($cuil)
+    {
+        $q = "SELECT cuil, nombre, apellido, mail, estado FROM persona WHERE cuil = ?";
+        
+        $query = self::$conexion->prepare($q);
+        $query->bind_param("i", $cuil);
+        
+        if ($query->execute()) {
+            $query->bind_result($cuil, $nombre, $apellido, $mail, $estado);
+            
+            if ($query->fetch()) {
+                $query->close();
+        
+                $roles = $this->obtenerRolesPorCUIL($cuil);
+                
+                return new Usuario($cuil, $mail, $roles, $nombre, $apellido, $estado);
+            }
+        }
+        return false;
+    }
+    
+    public function obtenerRolesPorCUIL($cuil)
+    {
+        $roles = array();
+        
+        $q = "SELECT rol_id_rol FROM persona_roles WHERE persona_cuil = ?";
+        
+        $query = self::$conexion->prepare($q);
+        $query->bind_param("i", $cuil);
+        
+        if ($query->execute()) {
+            $query->bind_result($rol_id);
+            
+            while ($query->fetch()) {
+                $roles[] = $rol_id;
+            }
+        }
+        
+        return $roles;
+    }
+
 
     public function actualizar(Usuario $u)
     {

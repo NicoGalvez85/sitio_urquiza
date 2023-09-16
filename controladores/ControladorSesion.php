@@ -11,7 +11,7 @@ class ControladorSesion
         $repo = new RepositorioUsuario();
         $usuario = $repo->login($nombre_usuario, $clave);
         if ($usuario === false)
-        {
+        {   
             return [false, "Error de credenciales"];
         } 
         else 
@@ -30,9 +30,9 @@ class ControladorSesion
         
         $creat = $repo->save($usuario, $clave);
 
-        if ($creat === false)
+        if ($creat[0] === false)
         {
-            return [ false, "Error al crear el usuario"];
+            return [ false, $creat[1]];
         }
         else 
         {
@@ -41,6 +41,14 @@ class ControladorSesion
             return [ true, "Usuario creado correctamente" ];
         }
     }
+
+    public function buscarPorCUIL($cuil)
+    {
+        $repo = new RepositorioUsuario();
+        $usuario = $repo->buscarPorCUIL($cuil);
+        return $usuario;
+    }
+
 
     public function modificar($nombre_usuario, $nombre, $apellido, $email, Usuario $usuario)
     {
