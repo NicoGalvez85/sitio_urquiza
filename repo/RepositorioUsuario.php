@@ -136,6 +136,9 @@ class RepositorioUsuario
                 $roles[] = $rol_id;
             }
         }
+        else{
+            return false;
+        }
         
         return $roles;
     }

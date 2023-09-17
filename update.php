@@ -31,19 +31,38 @@ require_once 'controladores/ControladorSesion.php';
                 <label for="clave">Clave:</label>
                 <input type="password" name="clave" minlength="7" required><br>
 
-                <!-- Agregar los checkboxes de roles -->
                 <div class="form-group checkboxes mx-5">
-                    <label for="roles" class="form-label"><h2>Roles</h2></label><br>
-                    <!-- Agrega aquí los checkboxes de roles con los valores actuales -->
-                    <!-- Ejemplo:
+                    <label for="roles" class="form-label"><h2>Roles</h2></label>
+
                     <input type="checkbox" name="rol[]" value="0" class="form-check-input" 
-                    <?php if (in_array(0, $usuario->getRoles())) echo 'checked'; ?>>
+                    <?php if (in_array(0, $usuario->getRol())) echo 'checked'; ?>>
                     <label for="rol0" class="form-check-label">Administrador</label><br>
-                    -->
+                    
+                    <input type="checkbox" name="rol[]" value="1" class="form-check-input" 
+                    <?php if (in_array(1, $usuario->getRol())) echo 'checked'; ?>>
+                    <label for="rol1" class="form-check-label">Regente</label><br>
+
+                    <input type="checkbox" name="rol[]" value="2" class="form-check-input" 
+                    <?php if (in_array(2, $usuario->getRol())) echo 'checked'; ?>>
+                    <label for="rol2" class="form-check-label">Profesor</label><br>
+
+                    <input type="checkbox" name="rol[]" value="3" class="form-check-input" 
+                    <?php if (in_array(3, $usuario->getRol())) echo 'checked'; ?>>
+                    <label for="rol3" class="form-check-label">Alumno</label><br>
+
+                    <input type="checkbox" name="rol[]" value="4" class="form-check-input" 
+                    <?php if (in_array(4, $usuario->getRol())) echo 'checked'; ?>>
+                    <label for="rol4" class="form-check-label">Bedel</label><br>
+
+                    <input type="checkbox" name="rol[]" value="5" class="form-check-input" 
+                    <?php if (in_array(5, $usuario->getRol())) echo 'checked'; ?>>
+                    <label for="rol5" class="form-check-label">Secretario</label><br>
+
                 </div>
 
                 <input type="submit" value="Guardar Cambios">
             </form>
+                <script src="js/checkbox.js"></script>
         </body>
         </html>
         <?php
