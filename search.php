@@ -13,7 +13,7 @@
                 <h2>' . $_GET['mensaje'] . '</h2></div>';
         }
         ?>
-    <h1>Modificar Usuario</h1>
+    <h1>Buscar Usuario</h1>
     <form action="update.php" method="post">
         <label for="cuil">CUIL:</label>
         <input type="text" name="cuil" required>

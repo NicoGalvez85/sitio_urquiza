@@ -144,47 +144,45 @@ class RepositorioUsuario
     }
 
 
-    public function actualizar(Usuario $u)
+    public function actualizar(Usuario $u, $clave)
     {
-        $q = "UPDATE usuarios ";
-        $q.= "SET usuario = ?, nombre = ?, apellido = ?, email = ? ";
-        $q.= "WHERE id = ?";
-        $query = self::$conexion->prepare($q);
+        $q = 'call actualizar_datos(?,?,?,?,?)';
+        $queryP = self::$conexion->prepare($q);
 
-        $usuario = $u->getUsuario();
+        $cuil = $u->getCuil();
         $nombre = $u->getNombre();
         $apellido = $u->getApellido();
-        $email = $u->getEmail();
-        $id = $u->getId();
+        $mail = $u->getMail();
+        $estado = $u->getEstado();
+        $queryP->bind_param("isssi", $cuil, $nombre, $apellido, $mail, $estado);
+        $ms='Anda hasta acá';
 
-        $query->bind_param("ssssd", $usuario, $nombre, $apellido, $email, $id);
+        if ($queryP->execute()){
+            $queryP->close();
+            $qd= 'call delete_roles(?)';
+            $queryd = self::$conexion->prepare($qd);
+            $queryd->bind_param("i", $cuil);
 
-        if ($query->execute())
-        {
-            return true;
-        } 
-        else 
-        {
-            return false;
-        }
-    }
+            if ($queryd->execute()){
+                $queryd->close();
+                $roles = $u->getRol();
 
-    public function eliminar(Usuario $u)
-    {
-        $q = "DELETE FROM usuarios WHERE id = ?";
-        $query = self::$conexion->prepare($q);
-
-        $id = $u->getId();
-
-        $query->bind_param("d", $id);
-
-        if ($query->execute())
-        {
-            return true;
-        } 
-        else 
-        {
-            return false;
+                $qi = 'call actualizar_roles(?,?)';
+                $queryi = self::$conexion->prepare($qi);
+                foreach ($roles as $rol_id){
+                    $queryi->bind_param("ii", $cuil , $rol_id);
+                    if($queryi->execute()){
+                        continue;
+                    }else{
+                        return [false, "Error de Roles"];
+                    }
+                }
+                return true;
+            }else{
+                return [false, "Error de Roles"];
+            }
+        }else{
+            return [false, "No se pudo Modificar el usuario debido a incompatibilidades con BBDD."];
         }
     }
 }

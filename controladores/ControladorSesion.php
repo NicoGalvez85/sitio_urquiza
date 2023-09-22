@@ -50,12 +50,12 @@ class ControladorSesion
     }
 
 
-    public function modificar($nombre_usuario, $nombre, $apellido, $email, Usuario $usuario)
+    public function modificar($cuil, $email, $roles, $nombre, $apellido, $estado, $clave)
     {
+        $usuario = new Usuario($cuil, $email, $roles, $nombre, $apellido, $estado);
         $repo = new RepositorioUsuario();
-        $usuario->setDatos($nombre_usuario, $nombre, $apellido, $email);
 
-        if ($repo->actualizar($usuario))
+        if ($repo->actualizar($usuario,$clave))
         {
             session_start();
             $_SESSION['usuario'] = serialize($usuario);

@@ -126,6 +126,49 @@ LOCK TABLES `rol` WRITE;
 INSERT INTO rol (id_rol,rol) value(0,'Administrador'),(1,'Regente'),(2,'Profesor'),(3,'Alumno'),(4,'Bedel'),(5,'Secretario');
 /*!40000 ALTER TABLE `rol` ENABLE KEYS */;
 UNLOCK TABLES;
+
+-- PROCEDURES -----------------------------------------------------------------------
+
+delimiter //
+create procedure actualizar_datos(in procuil bigint,in pronombre varchar(45),in proapellido varchar(45),
+in promail varchar(45),in proestado tinyint)
+
+ begin
+
+	update persona
+	set nombre = pronombre, apellido = proapellido, mail = promail, estado = proestado
+	where cuil = procuil;
+    
+	commit;
+end;
+//
+delimiter ;
+---------------------------------------------------------------------------------------------
+delimiter //
+create procedure actualizar_roles(in procuil bigint,in prorol int )
+
+ begin
+
+    insert into persona_roles (persona_cuil, rol_id_rol)
+    values(procuil, prorol);
+    
+	commit;
+end;
+//
+delimiter ;
+--------------------------------------------------------------------------------------------------
+delimiter //
+create procedure delete_roles(in procuil bigint)
+
+ begin
+
+    delete from persona_roles where persona_cuil = procuil;
+    
+	commit;
+end;
+//
+delimiter ;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
