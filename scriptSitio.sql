@@ -128,21 +128,40 @@ INSERT INTO rol (id_rol,rol) value(0,'Administrador'),(1,'Regente'),(2,'Profesor
 UNLOCK TABLES;
 
 -- PROCEDURES -----------------------------------------------------------------------
+DELIMITER //
 
-delimiter //
-create procedure actualizar_datos(in procuil bigint,in pronombre varchar(45),in proapellido varchar(45),
-in promail varchar(45),in proestado tinyint)
+CREATE PROCEDURE actualizar_datos(
+  IN procuil BIGINT,
+  IN pronombre VARCHAR(45),
+  IN proapellido VARCHAR(45),
+  IN promail VARCHAR(45),
+  IN proestado TINYINT,
+  IN proclave VARCHAR(100)
+)
+BEGIN
+  DECLARE actualizar_clave BOOLEAN DEFAULT FALSE;
+  
+  -- Verificar si proclave no está vacío
+  IF LENGTH(proclave) > 0 THEN
+    SET actualizar_clave = TRUE;
+  END IF;
 
- begin
+  IF actualizar_clave THEN
+    UPDATE persona
+    SET nombre = pronombre, apellido = proapellido, mail = promail, estado = proestado, password = proclave
+    WHERE cuil = procuil;
+  ELSE
+    UPDATE persona
+    SET nombre = pronombre, apellido = proapellido, mail = promail, estado = proestado
+    WHERE cuil = procuil;
+  END IF;
 
-	update persona
-	set nombre = pronombre, apellido = proapellido, mail = promail, estado = proestado
-	where cuil = procuil;
-    
-	commit;
-end;
+  COMMIT;
+END;
 //
-delimiter ;
+
+DELIMITER ;
+
 ---------------------------------------------------------------------------------------------
 delimiter //
 create procedure actualizar_roles(in procuil bigint,in prorol int )

@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector("form");
   const checkboxes = document.querySelectorAll('input[name="rol[]"]');
-  const adminCheckbox = document.querySelector('input[name="rol[]"][value="0"]');
+  const adminCheckbox = document.querySelector('input[name="rol[]"][value="0"]');        
+
+  
 
   // Almacena el estado de los checkboxes antes de marcar "Administrador"
   const initialState = {};
@@ -15,10 +17,9 @@ document.addEventListener("DOMContentLoaded", function () {
   adminCheckbox.addEventListener("change", function () {
     const adminChecked = this.checked;
 
-    // Si se marca el checkbox de Administrador, desmarca los otros checkboxes y deshabilítalos
+    // Si se marca el checkbox de Administrador, deshabilita los otros checkboxes
     checkboxes.forEach(function (checkbox) {
       if (checkbox !== adminCheckbox) {
-        checkbox.checked = false;
         checkbox.disabled = adminChecked;
       }
     });
@@ -60,3 +61,4 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+

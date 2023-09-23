@@ -1,7 +1,7 @@
 <?php
 require_once 'controladores/ControladorSesion.php';
 
-if (isset($_POST['cuil'], $_POST['email'], $_POST['nombre'], $_POST['apellido'],$_POST['estado'], $_POST['clave'])) {
+if (isset($_POST['cuil'], $_POST['email'], $_POST['nombre'], $_POST['apellido'],$_POST['estado'])) {
 
     $cuil= $_POST['cuil'];
     $email = $_POST['email'];
@@ -9,6 +9,7 @@ if (isset($_POST['cuil'], $_POST['email'], $_POST['nombre'], $_POST['apellido'],
     $apellido = $_POST['apellido'];
     $estado = $_POST['estado'];
     $clave = $_POST['clave'];
+    
 
     // Procesar los checkboxes de roles
     $roles = isset($_POST['rol']) ? $_POST['rol'] : array();

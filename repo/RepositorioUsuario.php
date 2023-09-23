@@ -146,7 +146,7 @@ class RepositorioUsuario
 
     public function actualizar(Usuario $u, $clave)
     {
-        $q = 'call actualizar_datos(?,?,?,?,?)';
+        $q = 'call actualizar_datos(?,?,?,?,?,?)';
         $queryP = self::$conexion->prepare($q);
 
         $cuil = $u->getCuil();
@@ -154,7 +154,11 @@ class RepositorioUsuario
         $apellido = $u->getApellido();
         $mail = $u->getMail();
         $estado = $u->getEstado();
-        $queryP->bind_param("isssi", $cuil, $nombre, $apellido, $mail, $estado);
+
+        if (strlen($clave)>0){
+            $clave = password_hash($clave, PASSWORD_DEFAULT);
+        }
+        $queryP->bind_param("isssis", $cuil, $nombre, $apellido, $mail, $estado, $clave);
         $ms='Anda hasta acá';
 
         if ($queryP->execute()){
